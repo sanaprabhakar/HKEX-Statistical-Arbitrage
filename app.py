@@ -8,7 +8,7 @@ import streamlit as st
 # ==============================================================================
 st.set_page_config(
     page_title="Theory vs. Reality | HKEX Pairs Trading",
-    page_icon="💠",
+    page_icon="𝚺",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
