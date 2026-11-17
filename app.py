@@ -1,3 +1,4 @@
+import textwrap
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -23,6 +24,20 @@ PALETTE = {
     "steel": "#3E68A3",
     "obsidian": "#04080F",
 }
+
+
+def render_html(html: str) -> None:
+    """Safely renders HTML blocks without triggering Markdown 4-space code blocks."""
+    st.markdown(textwrap.dedent(html).strip(), unsafe_allow_html=True)
+
+
+def plot_chart(fig: go.Figure) -> None:
+    """Renders Plotly charts cleanly across both legacy and current Streamlit versions."""
+    st_ver = tuple(int(part) for part in st.__version__.split(".")[:2])
+    if st_ver >= (1, 49):
+        st.plotly_chart(fig, width="stretch")
+    else:
+        st.plotly_chart(fig, use_container_width=True)
 
 
 # ==============================================================================
@@ -148,7 +163,7 @@ df_data = generate_project_data()
 # ==============================================================================
 # APPLE macOS GLASS UI CSS (Frosted Center, Transparent Edges, Flowing Text)
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -334,6 +349,11 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 
 /* Custom Tearsheet Table inside Glass Panel */
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+}
+
 table.glass-table {
     width: 100%;
     border-collapse: collapse;
@@ -377,12 +397,11 @@ table.glass-table tr:hover td {
     margin: 3.1rem 0;
 }
 </style>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 
-def style_plotly_for_glass(fig, height=380):
+def style_plotly_for_glass(fig: go.Figure, height: int = 380) -> go.Figure:
     """Formats Plotly charts to sit inside a glass panel without title/legend overlap."""
     fig.update_layout(
         title=None,
@@ -424,7 +443,7 @@ def style_plotly_for_glass(fig, height=380):
 # ==============================================================================
 # HERO HEADER (Plain Flowing Typography + Glass Summary Stat Panels)
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">ACADEMIC PORTFOLIO PROJECT • PRABHAKAR SANA</div>
@@ -435,14 +454,13 @@ st.markdown(
         An Empirical Study of Dynamic Kalman Filtering and Market Microstructure Drag on HSBC Holdings (0005.HK) and Standard Chartered (2888.HK)
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Top-level metrics inside Apple Glass rounded-square panels
 m_col1, m_col2, m_col3, m_col4 = st.columns(4)
 with m_col1:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -451,11 +469,10 @@ with m_col1:
         </div>
         <div class="stat-sub">Before fees (vs. +8.92% Static OLS)</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with m_col2:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -464,11 +481,10 @@ with m_col2:
         </div>
         <div class="stat-sub">Across 85 cycles (170 rebalances)</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with m_col3:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -477,11 +493,10 @@ with m_col3:
         </div>
         <div class="stat-sub">Net Sharpe: -1.34 • CAGR: -7.19%</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with m_col4:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -490,17 +505,16 @@ with m_col4:
         </div>
         <div class="stat-sub">Max fee/leg vs. 15.05 bps actual</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 1: PROJECT OVERVIEW
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">01 • PROJECT OVERVIEW</div>
@@ -526,17 +540,16 @@ st.markdown(
         </li>
     </ol>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 2: ECONOMETRIC FOUNDATION
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">02 • ECONOMETRIC FOUNDATION</div>
@@ -561,41 +574,30 @@ st.markdown(
         percentage change in Standard Chartered), keeping the strategy scale-invariant.
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: Log-Price Formulation & Static Engle-Granger Equation
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Log-Price Formulation &amp; Engle-Granger Baseline Regression</div>
         <div class="glass-panel-subtitle">Scale-invariant log-price spread and Ordinary Least Squares (OLS) baseline estimation.</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     eq_c1, eq_c2 = st.columns(2)
     with eq_c1:
         st.latex(r"y_t = \ln(P_t^Y), \quad x_t = \ln(P_t^X)")
-        st.markdown(
-            '<div class="formula-caption">Log Prices (HSBC = Y, StanChart = X)</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Log Prices (HSBC = Y, StanChart = X)</div>')
     with eq_c2:
         st.latex(r"s_t = y_t - \beta x_t - \alpha")
-        st.markdown(
-            '<div class="formula-caption">Residual Log-Price Spread</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Residual Log-Price Spread</div>')
 
-    st.markdown("<hr style='border-color: rgba(161,198,234,0.15); margin: 1rem 0;'>", unsafe_allow_html=True)
+    render_html("<hr style='border-color: rgba(161,198,234,0.15); margin: 1rem 0;'>")
     st.latex(r"\ln(\text{HSBC}_t) = 0.542 + 0.812 \times \ln(\text{StanChart}_t) + \hat{\epsilon}_t")
-    st.markdown(
-        '<div class="formula-caption">Static Baseline Regression via the Engle-Granger Two-Step Method</div>',
-        unsafe_allow_html=True,
-    )
+    render_html('<div class="formula-caption">Static Baseline Regression via the Engle-Granger Two-Step Method</div>')
 
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <p>
@@ -605,14 +607,13 @@ st.markdown(
         between the two banks.
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Stat Row for Econometric Tests
 adf1, adf2, adf3 = st.columns(3)
 with adf1:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -621,11 +622,10 @@ with adf1:
         </div>
         <div class="stat-sub">Intercept (α) = 0.542 in log prices</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with adf2:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -634,11 +634,10 @@ with adf2:
         </div>
         <div class="stat-sub">5% MacKinnon critical value: -3.34</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with adf3:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -647,18 +646,16 @@ with adf3:
         </div>
         <div class="stat-sub">Confirms stationary equilibrium spread</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 
 # Glass Panel: Chart 1 (Log Prices Co-movement)
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Log Prices: HSBC Holdings (0005.HK) vs. Standard Chartered (2888.HK)</div>
         <div class="glass-panel-subtitle">5-year daily closing log prices across 1,230 trading days on HKEX (2021–2026).</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     fig_prices = go.Figure()
     fig_prices.add_trace(
@@ -679,15 +676,15 @@ with st.container(border=True):
     )
     fig_prices.update_yaxes(title_text="Log Price ln(P_t)")
     style_plotly_for_glass(fig_prices, height=370)
-    st.plotly_chart(fig_prices, use_container_width=True)
+    plot_chart(fig_prices)
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 3: DYNAMIC KALMAN FILTER
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">03 • DYNAMIC KALMAN FILTER</div>
@@ -723,24 +720,19 @@ st.markdown(
         <strong>0.68 and 0.94</strong>, adjusting to changing market conditions while filtering out transient noise.
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: Dynamic Spread Equation & Kalman Beta Chart
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Dynamic Kalman Filter Hedge Ratio vs. Static OLS (2021–2026)</div>
         <div class="glass-panel-subtitle">Recursive state-vector tracking (0.68 to 0.94) compared against the static 0.812 baseline.</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     st.latex(r"\theta_t = \begin{bmatrix} \alpha_t \\ \beta_t \end{bmatrix}, \quad s_t = y_t - (\hat{\alpha}_t + \hat{\beta}_t x_t)")
-    st.markdown(
-        '<div class="formula-caption">Dynamic State Vector &amp; Filtered Residual Spread</div>',
-        unsafe_allow_html=True,
-    )
+    render_html('<div class="formula-caption">Dynamic State Vector &amp; Filtered Residual Spread</div>')
 
     fig_beta = go.Figure()
     fig_beta.add_trace(
@@ -763,15 +755,15 @@ with st.container(border=True):
     )
     fig_beta.update_yaxes(range=[0.62, 1.00], title_text="Hedge Ratio (β)")
     style_plotly_for_glass(fig_beta, height=350)
-    st.plotly_chart(fig_beta, use_container_width=True)
+    plot_chart(fig_beta)
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 4: SPREAD DYNAMICS (OU CALIBRATION & FIRST HITTING TIME)
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">04 • SPREAD DYNAMICS</div>
@@ -802,46 +794,35 @@ st.markdown(
         </li>
     </ul>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: OU Equation & First Hitting Time Integral
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Ornstein-Uhlenbeck Process &amp; First Hitting Time Equations</div>
         <div class="glass-panel-subtitle">Continuous-time mean reversion and the analytical Dynkin boundary integral.</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     ou_c1, ou_c2 = st.columns(2)
     with ou_c1:
         st.latex(r"ds_t = \theta_{OU}(\mu_{OU} - s_t)dt + \sigma_{OU}dW_t")
-        st.markdown(
-            '<div class="formula-caption">Ornstein-Uhlenbeck Spread Process</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Ornstein-Uhlenbeck Spread Process</div>')
     with ou_c2:
         st.latex(r"\tau_{1/2} = \frac{\ln(2)}{\theta_{OU}} = 1.30 \text{ trading days}")
-        st.markdown(
-            '<div class="formula-caption">Empirical Spread Half-Life (θ_OU = 0.5332)</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Empirical Spread Half-Life (θ_OU = 0.5332)</div>')
 
-    st.markdown("<hr style='border-color: rgba(161,198,234,0.15); margin: 1rem 0;'>", unsafe_allow_html=True)
+    render_html("<hr style='border-color: rgba(161,198,234,0.15); margin: 1rem 0;'>")
     st.latex(
         r"\mathbb{E}[T_{\text{hit}}] = \frac{1}{\theta_{OU}}\sqrt{\frac{\pi}{2}}\int_{0}^{z_{\text{entry}}} e^{u^2/2}\text{erfc}\left(\frac{u}{\sqrt{2}}\right)du \approx 2.03 \times \tau_{1/2} \approx 2.64 \text{ trading days}"
     )
-    st.markdown(
-        '<div class="formula-caption">Analytical First Hitting Time via the Complementary Error Function (erfc)</div>',
-        unsafe_allow_html=True,
-    )
+    render_html('<div class="formula-caption">Analytical First Hitting Time via the Complementary Error Function (erfc)</div>')
 
 # Glass Stat Cards comparing Half-Life, Analytical FHT, and Realized Duration
 dur1, dur2, dur3 = st.columns(3)
 with dur1:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -850,11 +831,10 @@ with dur1:
         </div>
         <div class="stat-sub">50% decay velocity (θ_OU = 0.5332)</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with dur2:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -863,11 +843,10 @@ with dur2:
         </div>
         <div class="stat-sub">2.03 × τ₁/₂ (|Z| = 2.0σ → 0.0σ)</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with dur3:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -876,17 +855,16 @@ with dur3:
         </div>
         <div class="stat-sub">Includes close-to-close execution lag</div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 5: SIGNAL GENERATION AND RISK CONTROLS
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">05 • SIGNAL GENERATION &amp; RISK CONTROLS</div>
@@ -920,32 +898,24 @@ st.markdown(
         </li>
     </ul>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: Z-Score & Execution Latency Formulas + Z-Score Chart
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Rolling 30-Day Z-Score &amp; Execution State Machine (2021–2026)</div>
         <div class="glass-panel-subtitle">Normalized spread signals with ±2.0σ entry bands and ±3.5σ hysteresis stop-loss thresholds.</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     z_c1, z_c2 = st.columns(2)
     with z_c1:
         st.latex(r"Z_t = \frac{s_t - \mu_{30}(s_t)}{\sigma_{30}(s_t)}")
-        st.markdown(
-            '<div class="formula-caption">Rolling 30-Day Z-Score Normalization</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Rolling 30-Day Z-Score Normalization</div>')
     with z_c2:
         st.latex(r"\pi_{t+1}^{\text{exec}} = \pi_t")
-        st.markdown(
-            '<div class="formula-caption">1-Day Close-to-Close Execution Latency</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">1-Day Close-to-Close Execution Latency</div>')
 
     fig_z = go.Figure()
     fig_z.add_trace(
@@ -970,21 +940,22 @@ with st.container(border=True):
             line_width=1.3,
             annotation_text=label,
             annotation_position="right",
-            annotation_bgcolor="rgba(4, 8, 15, 0.72)",
+            annotation_bgcolor="rgba(4, 8, 15, 0.78)",
             annotation_borderpad=3,
             annotation_font=dict(size=10, color="#E0E9F6"),
         )
+    fig_z.update_xaxes(range=[df_data["Date"].min(), df_data["Date"].max() + pd.Timedelta(days=230)])
     fig_z.update_yaxes(range=[-4.2, 4.2], title_text="Z-Score (σ)")
     style_plotly_for_glass(fig_z, height=380)
-    st.plotly_chart(fig_z, use_container_width=True)
+    plot_chart(fig_z)
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 6: EMPIRICAL RESULTS (THEORETICAL ALPHA VS. FRICTION DRAG)
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">06 • EMPIRICAL RESULTS</div>
@@ -1020,18 +991,16 @@ st.markdown(
         <strong>−31.17%</strong> (CAGR: −7.19%, Sharpe: −1.34, Max Drawdown: −33.45%).
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: Chart 4 (Equity Curves)
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">5-Year Cumulative Equity Curve: Gross Alpha vs. Net HKEX Reality (2021–2026)</div>
         <div class="glass-panel-subtitle">Comparing Gross Kalman (+21.06%), Gross Static OLS (+8.92%), and Net Cash Kalman after HKEX fees (−31.17%).</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     fig_eq = go.Figure()
     fig_eq.add_trace(
@@ -1063,97 +1032,98 @@ with st.container(border=True):
     fig_eq.add_hline(y=100, line_dash="dot", line_color="rgba(161, 198, 234, 0.3)")
     fig_eq.update_yaxes(title_text="Portfolio Value (Indexed = 100)")
     style_plotly_for_glass(fig_eq, height=400)
-    st.plotly_chart(fig_eq, use_container_width=True)
+    plot_chart(fig_eq)
 
 # Glass Panel: Institutional Performance Tearsheet Table
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Table 1: Institutional Quantitative Performance Tearsheet (2021–2026 Backtest)</div>
         <div class="glass-panel-subtitle">Side-by-side comparison across Kalman (Gross), Kalman (Net Cash), and Static OLS (Gross).</div>
-        <table class="glass-table">
-            <thead>
-                <tr>
-                    <th>Metric</th>
-                    <th>Kalman (Gross)</th>
-                    <th>Kalman (Net Cash)</th>
-                    <th>Static OLS (Gross)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Cumulative Total Return</strong></td>
-                    <td class="mono-cell">+21.06%</td>
-                    <td class="mono-cell">-31.17%</td>
-                    <td class="mono-cell">+8.92%</td>
-                </tr>
-                <tr>
-                    <td><strong>Compound Annual Growth (CAGR)</strong></td>
-                    <td class="mono-cell">+3.90%</td>
-                    <td class="mono-cell">-7.19%</td>
-                    <td class="mono-cell">+1.72%</td>
-                </tr>
-                <tr>
-                    <td><strong>Annualized Volatility</strong></td>
-                    <td class="mono-cell">7.61%</td>
-                    <td class="mono-cell">7.62%</td>
-                    <td class="mono-cell">8.95%</td>
-                </tr>
-                <tr>
-                    <td><strong>Sharpe Ratio (R_f = 3.0%)</strong></td>
-                    <td class="mono-cell">+0.12</td>
-                    <td class="mono-cell">-1.34</td>
-                    <td class="mono-cell">-0.14</td>
-                </tr>
-                <tr>
-                    <td><strong>Maximum Drawdown (MDD)</strong></td>
-                    <td class="mono-cell">-11.29%</td>
-                    <td class="mono-cell">-33.45%</td>
-                    <td class="mono-cell">-16.20%</td>
-                </tr>
-                <tr>
-                    <td><strong>Win Rate (Active Cycles)</strong></td>
-                    <td class="mono-cell">54.20%</td>
-                    <td class="mono-cell">38.80%</td>
-                    <td class="mono-cell">48.80%</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Completed Cycles</strong></td>
-                    <td class="mono-cell">85</td>
-                    <td class="mono-cell">85</td>
-                    <td class="mono-cell">98</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Rebalancing Events</strong></td>
-                    <td class="mono-cell">170</td>
-                    <td class="mono-cell">170</td>
-                    <td class="mono-cell">196</td>
-                </tr>
-                <tr>
-                    <td><strong>Average Trade Duration</strong></td>
-                    <td class="mono-cell">3.42 Days</td>
-                    <td class="mono-cell">3.42 Days</td>
-                    <td class="mono-cell">4.85 Days</td>
-                </tr>
-                <tr>
-                    <td><strong>Total Friction Drag</strong></td>
-                    <td class="mono-cell">0.00%</td>
-                    <td class="mono-cell">-52.23%</td>
-                    <td class="mono-cell">-60.73%</td>
-                </tr>
-            </tbody>
-        </table>
-        """,
-        unsafe_allow_html=True,
+        <div class="table-scroll">
+            <table class="glass-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Kalman (Gross)</th>
+                        <th>Kalman (Net Cash)</th>
+                        <th>Static OLS (Gross)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cumulative Total Return</strong></td>
+                        <td class="mono-cell">+21.06%</td>
+                        <td class="mono-cell">-31.17%</td>
+                        <td class="mono-cell">+8.92%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Compound Annual Growth (CAGR)</strong></td>
+                        <td class="mono-cell">+3.90%</td>
+                        <td class="mono-cell">-7.19%</td>
+                        <td class="mono-cell">+1.72%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Annualized Volatility</strong></td>
+                        <td class="mono-cell">7.61%</td>
+                        <td class="mono-cell">7.62%</td>
+                        <td class="mono-cell">8.95%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sharpe Ratio (R_f = 3.0%)</strong></td>
+                        <td class="mono-cell">+0.12</td>
+                        <td class="mono-cell">-1.34</td>
+                        <td class="mono-cell">-0.14</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maximum Drawdown (MDD)</strong></td>
+                        <td class="mono-cell">-11.29%</td>
+                        <td class="mono-cell">-33.45%</td>
+                        <td class="mono-cell">-16.20%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Win Rate (Active Cycles)</strong></td>
+                        <td class="mono-cell">54.20%</td>
+                        <td class="mono-cell">38.80%</td>
+                        <td class="mono-cell">48.80%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Completed Cycles</strong></td>
+                        <td class="mono-cell">85</td>
+                        <td class="mono-cell">85</td>
+                        <td class="mono-cell">98</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Rebalancing Events</strong></td>
+                        <td class="mono-cell">170</td>
+                        <td class="mono-cell">170</td>
+                        <td class="mono-cell">196</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Average Trade Duration</strong></td>
+                        <td class="mono-cell">3.42 Days</td>
+                        <td class="mono-cell">3.42 Days</td>
+                        <td class="mono-cell">4.85 Days</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Friction Drag</strong></td>
+                        <td class="mono-cell">0.00%</td>
+                        <td class="mono-cell">-52.23%</td>
+                        <td class="mono-cell">-60.73%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        """
     )
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 7: THE BREAK-EVEN FRICTION FRONTIER
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">07 • THE BREAK-EVEN FRICTION FRONTIER</div>
@@ -1172,27 +1142,22 @@ st.markdown(
         <strong>−13.85 bps net friction deficit</strong>. Cash equity statistical arbitrage on HKEX is economically unviable.
     </p>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: Break-Even Frontier Equation & Interactive Simulator
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Break-Even Friction Frontier Equation &amp; Interactive Cost Simulator</div>
         <div class="glass-panel-subtitle">Adjust the single-leg cost slider to test how transaction fees impact 5-year net performance.</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     st.latex(
         r"c^* = \sup \left\{ c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 3.0\%) \ge 0.0 \right\} = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}"
     )
-    st.markdown(
-        '<div class="formula-caption">Break-Even Single-Leg Cost Threshold Against a 3.0% HKD Cash Hurdle</div>',
-        unsafe_allow_html=True,
-    )
-    st.markdown("<hr style='border-color: rgba(161,198,234,0.15); margin: 1.2rem 0;'>", unsafe_allow_html=True)
+    render_html('<div class="formula-caption">Break-Even Single-Leg Cost Threshold Against a 3.0% HKD Cash Hurdle</div>')
+    render_html("<hr style='border-color: rgba(161,198,234,0.15); margin: 1.2rem 0;'>")
 
     sim_col1, sim_col2 = st.columns([1.25, 2.25])
     with sim_col1:
@@ -1212,14 +1177,17 @@ with st.container(border=True):
         sim_cagr = ((1 + sim_net_return / 100.0) ** (1 / 5) - 1) * 100.0
         sim_sharpe = (sim_cagr - 3.0) / 7.62
 
-        if sim_sharpe >= 0.0:
+        rounded_sharpe = round(sim_sharpe, 2)
+        if rounded_sharpe > 0.0:
             regime_note = "Viable (Beats 3.0% Cash Hurdle)"
+        elif rounded_sharpe == 0.0:
+            regime_note = "Break-Even Frontier (Matches 3.0% Cash)"
         elif sim_net_return > 0.0:
             regime_note = "Positive Return (Trails 3.0% Cash)"
         else:
             regime_note = "Unviable (Net Capital Loss)"
 
-        st.markdown(
+        render_html(
             f"""
             <div class="glass-stat-card" style="margin-top: 0.75rem;">
                 <div>
@@ -1231,8 +1199,7 @@ with st.container(border=True):
                     <strong>Status:</strong> {regime_note}
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True,
+            """
         )
 
     with sim_col2:
@@ -1269,7 +1236,7 @@ with st.container(border=True):
             line_dash="dash",
             line_color=PALETTE["sky"],
             annotation_text="c* = 1.20 bps",
-            annotation_position="top left",
+            annotation_position="top right",
             annotation_font=dict(color="#A1C6EA", size=11),
         )
         fig_frontier.add_vline(
@@ -1296,15 +1263,15 @@ with st.container(border=True):
         fig_frontier.update_xaxes(title_text="Single-Leg Transaction Cost (bps)")
         fig_frontier.update_yaxes(title_text="Net Cumulative Return (%)")
         style_plotly_for_glass(fig_frontier, height=320)
-        st.plotly_chart(fig_frontier, use_container_width=True)
+        plot_chart(fig_frontier)
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 8: INSTITUTIONAL EXECUTION (SINGLE-STOCK FUTURES & MARKET REALITIES)
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">08 • INSTITUTIONAL EXECUTION</div>
@@ -1348,53 +1315,44 @@ st.markdown(
         </li>
     </ul>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Glass Panel: Futures Basis Pricing & Discrete Board-Lot Optimization Formulas
 with st.container(border=True):
-    st.markdown(
+    render_html(
         """
         <div class="glass-panel-title">Futures Cost-of-Carry Basis &amp; Discrete Board-Lot Rounding</div>
         <div class="glass-panel-subtitle">Pricing equations governing derivative basis risk and HKEX board-lot discretization.</div>
-        """,
-        unsafe_allow_html=True,
+        """
     )
     f_c1, f_c2 = st.columns(2)
     with f_c1:
         st.latex(r"F_t = P_t e^{(r - q)(T - t)}")
-        st.markdown(
-            '<div class="formula-caption">Futures Basis Pricing (r = Carrying Cost, q = Dividend Yield)</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Futures Basis Pricing (r = Carrying Cost, q = Dividend Yield)</div>')
     with f_c2:
         st.latex(r"\min_{n_Y, n_X \in \mathbb{Z}^+} \left| \frac{n_X L_X P_t^X}{n_Y L_Y P_t^Y} - \hat{\beta}_t \right|")
-        st.markdown(
-            '<div class="formula-caption">Discrete Board-Lot Optimization (L_Y = 400, L_X = 500)</div>',
-            unsafe_allow_html=True,
-        )
+        render_html('<div class="formula-caption">Discrete Board-Lot Optimization (L_Y = 400, L_X = 500)</div>')
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+render_html('<div class="section-divider"></div>')
 
 
 # ==============================================================================
 # SECTION 9: KEY TAKEAWAYS
 # ==============================================================================
-st.markdown(
+render_html(
     """
 <div class="prose-text">
     <div class="section-kicker">09 • SUMMARY</div>
     <h2 class="section-heading">Key Takeaways</h2>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
 
 # Final 4 Glass Summary Cards
 tk1, tk2 = st.columns(2)
 with tk1:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -1406,11 +1364,10 @@ with tk1:
             <strong>Kalman filter</strong> dynamically tracks changing bank fundamentals without lag.
         </div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with tk2:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -1422,15 +1379,14 @@ with tk2:
             accurately frames expected trade durations (<strong>3.42 days</strong> realized).
         </div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 
-st.markdown("<div style='height: 1.1rem;'></div>", unsafe_allow_html=True)
+render_html("<div style='height: 1.1rem;'></div>")
 
 tk3, tk4 = st.columns(2)
 with tk3:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -1442,11 +1398,10 @@ with tk3:
             that wipes out cash equity statistical arbitrage (<strong>-31.17%</strong> net return).
         </div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 with tk4:
-    st.markdown(
+    render_html(
         """
     <div class="glass-stat-card">
         <div>
@@ -1458,17 +1413,15 @@ with tk4:
             management of <strong>order-book illiquidity</strong>, <strong>roll costs</strong>, and <strong>basis risk</strong>.
         </div>
     </div>
-    """,
-        unsafe_allow_html=True,
+    """
     )
 
 # Footer
-st.markdown(
+render_html(
     """
 <div style="text-align: center; margin-top: 4rem; padding: 1.5rem 0; color: #A1C6EA; font-size: 0.88rem; border-top: 1px solid rgba(161, 198, 234, 0.18);">
     <strong>Prabhakar Sana</strong> • Academic Portfolio Project •
     <em>Dynamic Cointegration, Kalman Filtering &amp; HKEX Market Microstructure</em>
 </div>
-""",
-    unsafe_allow_html=True,
+"""
 )
