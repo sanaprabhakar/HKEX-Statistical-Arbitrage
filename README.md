@@ -7,7 +7,7 @@
 [![Domain](https://img.shields.io/badge/Quantitative_Finance-Statistical_Arbitrage-3E68A3?style=flat-square)]()
 [![Market](https://img.shields.io/badge/Exchange-HKEX-04080F?style=flat-square)]()
 
-> **Interactive Research Dashboard:** Launch the live model and Break-Even Friction Simulator on Streamlit *(https://hkex-statistical-arbitrage.streamlit.app/)*.
+> **Interactive Research Dashboard:** Launch the live model and Break-Even Friction Simulator on Streamlit *(replace this link with your deployed Streamlit Cloud URL)*.
 
 ---
 
@@ -26,7 +26,7 @@ This repository implements an end-to-end pairs trading engine calibrated to two 
 | **Cumulative Total Return** | **+21.06%** | **−31.17%** | +8.92% |
 | **Compound Annual Growth (CAGR)** | +3.90% | −7.19% | +1.72% |
 | **Annualized Volatility** | 7.61% | 7.62% | 8.95% |
-| **Sharpe Ratio ($R_f = 3.0\%$)** | **+0.12** | **−1.34** | −0.14 |
+| **Sharpe Ratio ($R_f = 3.0$%)** | **+0.12** | **−1.34** | −0.14 |
 | **Maximum Drawdown (MDD)** | −11.29% | −33.45% | −16.20% |
 | **Win Rate (Active Cycles)** | 54.20% | 38.80% | 48.80% |
 | **Completed Trade Cycles** | 85 | 85 | 98 |
@@ -78,7 +78,7 @@ Every round-trip pair trade incurs institutional costs across **340 single-leg e
 
 Solving for the maximum single-leg fee $c^*$ that matches a `3.0%` HKD cash hurdle:
 
-$$c^* = \sup \left\lbrace c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 3.0\%) \ge 0.0 \right\rbrace = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}$$
+$$c^* = \sup \left\{ c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 3.0\%) \ge 0.0 \right\} = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}$$
 
 Actual HKEX cash equity friction (`15.05 bps`) exceeds this threshold by **13.85 bps per leg**, rendering cash equity statistical arbitrage economically unviable.
 
