@@ -57,7 +57,7 @@ Modeling the filtered residual spread as a continuous-time Ornstein-Uhlenbeck pr
 
 Because trades enter at $\vert{}Z\vert{} = 2.0\sigma$ and exit at full reversion ($0.0\sigma$), expected duration is governed by the analytical First Hitting Time (Dynkin boundary problem) rather than half-life alone:
 
-$$\mathbb{E}[T_{\text{hit}}] = \frac{1}{\theta_{OU}}\sqrt{\frac{\pi}{2}}\int_{0}^{z_{\text{entry}}} e^{u^2/2}\operatorname{erfc}\left(\frac{u}{\sqrt{2}}\right)du \approx 2.03 \times \tau_{1/2} \approx 2.64 \text{ trading days}$$
+$$\mathbb{E}[T_{\text{hit}}] = \frac{1}{\theta_{OU}}\sqrt{\frac{\pi}{2}}\int_{0}^{z_{\text{entry}}} e^{u^2/2}\text{erfc}\left(\frac{u}{\sqrt{2}}\right)du \approx 2.03 \times \tau_{1/2} \approx 2.64 \text{ trading days}$$
 
 * Incorporating discrete close-to-close execution latency expands the realized average trade duration to **3.42 trading days**.
 
@@ -78,7 +78,7 @@ Every round-trip pair trade incurs institutional costs across **340 single-leg e
 
 Solving for the maximum single-leg fee $c^*$ that matches a `3.0%` HKD cash hurdle:
 
-$$c^* = \sup \left\{ c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 3.0\%) \ge 0.0 \right\} = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}$$
+$$c^* = \sup \left\lbrace c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 3.0\%) \ge 0.0 \right\rbrace = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}$$
 
 Actual HKEX cash equity friction (`15.05 bps`) exceeds this threshold by **13.85 bps per leg**, rendering cash equity statistical arbitrage economically unviable.
 
