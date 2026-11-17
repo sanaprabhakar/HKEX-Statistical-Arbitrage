@@ -7,7 +7,7 @@
 [![Domain](https://img.shields.io/badge/Quantitative_Finance-Statistical_Arbitrage-3E68A3?style=flat-square)]()
 [![Market](https://img.shields.io/badge/Exchange-HKEX-04080F?style=flat-square)]()
 
-> **Interactive Research Dashboard:** Launch the live model and Break-Even Friction Simulator on Streamlit *(replace this link with your deployed Streamlit Cloud URL)*.
+> **Interactive Research Dashboard:** Launch the live model and Break-Even Friction Simulator on Streamlit *(https://hkex-statistical-arbitrage.streamlit.app/)*.
 
 ---
 
