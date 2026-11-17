@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# COLOR PALETTE (Strictly from your attached palette)
+# COLOR PALETTE
 # ==============================================================================
 PALETTE = {
     "white": "#FFFFFF",
@@ -31,7 +31,6 @@ PALETTE = {
 @st.cache_data
 def generate_project_data():
     """Generates the 1,230-day (Jan 2021 - Jan 2026) empirical dataset calibrated
-
     to the exact econometric and performance figures of the research study.
     """
     np.random.seed(42)
@@ -201,7 +200,7 @@ h1, h2, h3, h4 {
 }
 
 .prose-text li {
-    margin-bottom: 0.65rem !important;
+    margin-bottom: 0.72rem !important;
     color: #E0E9F6 !important;
 }
 
@@ -253,8 +252,11 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
         inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
 }
 
-/* Rounded Square Glass Metric Tiles (Frosted Center, Transparent Edges) */
+/* Rounded Square Glass Metric Tiles (Equal Height Flex Layout) */
 .glass-stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background: radial-gradient(
         circle at 50% 50%,
         rgba(224, 233, 246, 0.17) 0%,
@@ -268,6 +270,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     border-top: 1px solid rgba(255, 255, 255, 0.30);
     border-radius: 22px;
     padding: 1.45rem 1.55rem;
+    min-height: 142px;
     height: 100%;
     box-shadow:
         0 16px 38px rgba(4, 8, 15, 0.55),
@@ -285,7 +288,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 
 .stat-value {
     color: #FFFFFF;
-    font-size: 1.95rem;
+    font-size: 1.90rem;
     font-weight: 700;
     font-family: 'JetBrains Mono', monospace;
     letter-spacing: -0.03em;
@@ -297,7 +300,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     opacity: 0.85;
     font-size: 0.84rem;
     margin-top: 0.45rem;
-    line-height: 1.4;
+    line-height: 1.45;
 }
 
 /* Glass Panel Header */
@@ -387,7 +390,7 @@ def style_plotly_for_glass(fig, height=380):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(family="Inter, sans-serif", color="#E0E9F6", size=12),
-        margin=dict(l=12, r=12, t=42, b=16),
+        margin=dict(l=12, r=18, t=42, b=16),
         hovermode="x unified",
         legend=dict(
             orientation="h",
@@ -425,11 +428,11 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">ACADEMIC PORTFOLIO PROJECT • PRABHAKAR SANA</div>
-    <h1 style="font-size: 2.6rem; font-weight: 800; line-height: 1.15; margin-bottom: 0.9rem;">
+    <h1 style="font-size: 2.55rem; font-weight: 800; line-height: 1.15; margin-bottom: 0.9rem;">
         Theory vs. Reality: Why a Mathematically Sound Pairs Trading Model Breaks Down on the Hong Kong Stock Exchange
     </h1>
-    <p style="font-size: 1.18rem !important; color: #A1C6EA !important; margin-bottom: 2rem !important;">
-        An Empirical Study of Dynamic Kalman Filtering and Market Microstructure Drag on HSBC Holdings (0005.HK) and Standard Chartered (2888.HK)
+    <p style="font-size: 1.16rem !important; color: #A1C6EA !important; margin-bottom: 2rem !important;">
+        Testing a Dynamic Kalman Filter Pairs Strategy Against Real-World Hong Kong Trading Taxes and Market Friction on HSBC Holdings (0005.HK) and Standard Chartered (2888.HK)
     </p>
 </div>
 """,
@@ -442,8 +445,10 @@ with m_col1:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Kalman Gross Return</div>
-        <div class="stat-value">+21.06%</div>
+        <div>
+            <div class="stat-label">Kalman Gross Return</div>
+            <div class="stat-value">+21.06%</div>
+        </div>
         <div class="stat-sub">Before fees (vs. +8.92% Static OLS)</div>
     </div>
     """,
@@ -453,9 +458,11 @@ with m_col2:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Total Friction Drag</div>
-        <div class="stat-value">-52.23%</div>
-        <div class="stat-sub">Across 85 cycles (170 rebalances)</div>
+        <div>
+            <div class="stat-label">Total Friction Drag</div>
+            <div class="stat-value">-52.23%</div>
+        </div>
+        <div class="stat-sub">Across 85 trades (170 rebalances)</div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -464,8 +471,10 @@ with m_col3:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Net Cash Return</div>
-        <div class="stat-value">-31.17%</div>
+        <div>
+            <div class="stat-label">Net Cash Return</div>
+            <div class="stat-value">-31.17%</div>
+        </div>
         <div class="stat-sub">Net Sharpe: -1.34 • CAGR: -7.19%</div>
     </div>
     """,
@@ -475,8 +484,10 @@ with m_col4:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Break-Even Cost (c*)</div>
-        <div class="stat-value">1.20 bps</div>
+        <div>
+            <div class="stat-label">Break-Even Cost (c*)</div>
+            <div class="stat-value">1.20 bps</div>
+        </div>
         <div class="stat-sub">Max fee/leg vs. 15.05 bps actual</div>
     </div>
     """,
@@ -493,25 +504,27 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">01 • PROJECT OVERVIEW</div>
-    <h2 class="section-heading">Statistical Arbitrage and the Institutional Implementation Gap</h2>
+    <h2 class="section-heading">Why Textbook Trading Models Fail in Live Markets</h2>
     <p>
-        Quantitative literature often evaluates statistical arbitrage strategies under frictionless, theoretical conditions.
-        While models may show statistical alpha on paper, their profitability frequently deteriorates when exposed to
-        real-world market microstructure.
+        Academic trading papers often test statistical arbitrage strategies in an idealized world where buying and selling
+        stocks is free. While a strategy can look profitable on paper, real-world trading taxes, exchange fees, and order
+        delays frequently wipe out those gains.
     </p>
     <p>
-        This project develops an end-to-end pairs trading engine calibrated to two major banking institutions on the
+        This project builds a complete pairs trading engine for two major banks listed on the
         <strong>Hong Kong Stock Exchange (HKEX)</strong>: <strong>HSBC Holdings (0005.HK)</strong> and
-        <strong>Standard Chartered (2888.HK)</strong>. The goal is twofold:
+        <strong>Standard Chartered (2888.HK)</strong>. It sets out to answer two practical questions:
     </p>
     <ol>
         <li>
-            Address foundational econometric flaws in traditional pairs trading models by using <strong>log prices</strong>
-            and a <strong>dynamic Kalman filter</strong>.
+            <strong>Can better math improve the raw signal?</strong> We fix common flaws in basic pairs trading by
+            modeling <strong>log prices</strong> and using a <strong>dynamic Kalman filter</strong> that adapts as the
+            two banks' fundamentals shift over time.
         </li>
         <li>
-            Evaluate the strategy against the actual institutional trading costs enforced on HKEX—most notably Hong Kong’s
-            statutory <strong>0.10% stamp duty</strong>—to determine whether the strategy remains economically viable.
+            <strong>Does the strategy survive real Hong Kong trading costs?</strong> We test the model against actual
+            HKEX fees—most notably Hong Kong's mandatory <strong>0.10% stamp duty</strong>—to see whether the strategy
+            remains profitable after costs.
         </li>
     </ol>
 </div>
@@ -531,23 +544,21 @@ st.markdown(
     <div class="section-kicker">02 • ECONOMETRIC FOUNDATION</div>
     <h2 class="section-heading">Cointegration Using Log Prices</h2>
     <p>
-        A common mistake in retail pairs trading is relying on <strong>Pearson return correlation</strong>. Correlation
-        simply measures whether two assets moved in the same direction over a recent window. However, two stocks can display
-        a high return correlation while their underlying prices diverge permanently.
+        A common mistake in pairs trading is picking two stocks simply because their daily returns are
+        <strong>correlated</strong>. Two stocks can move in the same direction on most days while slowly drifting apart
+        forever. <strong>Cointegration</strong> tests for a much stronger bond: it checks whether the price gap (or
+        <em>spread</em>) between two stocks stays tethered to a stable long-run average, meaning any wide gap is
+        temporary and likely to snap back.
     </p>
     <p>
-        <strong>Cointegration</strong>, by contrast, identifies a true statistical equilibrium. If two non-stationary price
-        series share a stationary linear relationship, any widening spread between them is temporary and expected to revert
-        to its mean.
+        Many textbook models measure this relationship using raw dollar prices. In raw dollar terms, the hedge ratio
+        (&beta;) simply tells you how many shares to buy or sell—which breaks portfolio balance whenever stock prices
+        rise or fall significantly.
     </p>
     <p>
-        Many academic models calibrate cointegration on nominal price levels. In nominal terms, the hedge ratio (β) represents
-        a physical share ratio rather than a percentage sensitivity, which distorts portfolio balance and violates dollar
-        neutrality. To fix this, we formulate the entire system using <strong>log prices</strong>.
-    </p>
-    <p>
-        Using log prices, β represents true <strong>price elasticity</strong> (the percentage change in HSBC relative to a
-        percentage change in Standard Chartered), keeping the strategy scale-invariant.
+        To fix this, we build the entire model using <strong>log prices</strong>. In log terms, &beta; measures
+        <strong>percentage sensitivity</strong> (the percentage change in HSBC for every 1% move in Standard Chartered),
+        keeping the strategy balanced regardless of price level.
     </p>
 </div>
 """,
@@ -588,10 +599,10 @@ st.markdown(
     """
 <div class="prose-text">
     <p>
-        An <strong>Augmented Dickey-Fuller (ADF) test</strong> on the residuals produces a test statistic of
-        <strong>-3.42</strong>, rejecting the unit-root null hypothesis at the 5% level against
-        <strong>MacKinnon critical values</strong> (p = 0.041). This confirms that a genuine long-run equilibrium exists
-        between the two banks.
+        To confirm that this price tether is statistically real rather than a coincidence, we run an
+        <strong>Augmented Dickey-Fuller (ADF) test</strong> on the historical price gap. The test produces a statistic
+        of <strong>-3.42</strong>—beating the 5% critical threshold of <strong>-3.34</strong> (<em>p</em> = 0.041)—which
+        confirms that the spread reliably reverts to its long-run equilibrium.
     </p>
 </div>
 """,
@@ -604,9 +615,11 @@ with adf1:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Static OLS Elasticity (β)</div>
-        <div class="stat-value">0.812</div>
-        <div class="stat-sub">Intercept (α) = 0.542 in log prices</div>
+        <div>
+            <div class="stat-label">Static OLS Elasticity (&beta;)</div>
+            <div class="stat-value">0.812</div>
+        </div>
+        <div class="stat-sub">Intercept (&alpha;) = 0.542 in log prices</div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -615,9 +628,11 @@ with adf2:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">ADF Test Statistic</div>
-        <div class="stat-value">-3.42</div>
-        <div class="stat-sub">5% MacKinnon critical value: -3.34</div>
+        <div>
+            <div class="stat-label">ADF Test Statistic</div>
+            <div class="stat-value">-3.42</div>
+        </div>
+        <div class="stat-sub">Beats 5% critical threshold (-3.34)</div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -626,9 +641,11 @@ with adf3:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Cointegration p-Value</div>
-        <div class="stat-value">0.041</div>
-        <div class="stat-sub">Confirms stationary equilibrium spread</div>
+        <div>
+            <div class="stat-label">Cointegration p-Value</div>
+            <div class="stat-value">0.041</div>
+        </div>
+        <div class="stat-sub">Confirms mean-reverting price tether</div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -676,34 +693,34 @@ st.markdown(
     <div class="section-kicker">03 • DYNAMIC KALMAN FILTER</div>
     <h2 class="section-heading">Tracking Changing Fundamentals with the Kalman Filter</h2>
     <p>
-        Standard pairs trading assumes that the relationship (β) between two companies remains constant over time.
-        In reality, banking fundamentals drift. HSBC and Standard Chartered operate under shifting macroeconomic pressures,
-        including changing UK and Hong Kong <strong>net interest margins (NIM)</strong>, divergent exposures to mainland
-        commercial real estate, and varying dividend payouts. A static regression model lags behind these shifts and issues
-        false trading signals.
+        Standard pairs trading assumes the relationship (&beta;) between two banks never changes. In reality, business
+        fundamentals evolve. HSBC and Standard Chartered face shifting interest rate margins in the UK and Hong Kong,
+        different exposure to mainland commercial real estate, and changing dividend policies. A static formula reacts
+        too slowly to these shifts and triggers false trading signals.
     </p>
     <p>
-        To solve this, we model the relationship dynamically using a recursive two-dimensional <strong>Kalman filter</strong>:
+        To adapt in real time, we use a <strong>Kalman filter</strong>—an algorithm that continuously updates its
+        estimate as each day's closing prices arrive:
     </p>
     <ul>
         <li>
-            <strong>State Vector:</strong> The unobserved parameters (α and β) evolve as a random walk, allowing the model
-            to adapt locally to structural changes without imposing artificial mean-reversion on the hedge ratio itself.
+            <strong>Flexible Relationship (State Vector):</strong> Instead of locking &alpha; and &beta; to fixed
+            historical averages, the model lets them drift gradually as a random walk so it can adapt to structural
+            shifts in either bank.
         </li>
         <li>
-            <strong>Observation Equation:</strong> Relates the log price of HSBC to Standard Chartered with empirical
-            measurement noise.
+            <strong>Daily Price Link (Observation Equation):</strong> Connects HSBC's log price to Standard Chartered's
+            log price while filtering out random day-to-day market noise.
         </li>
         <li>
-            <strong>Recursive Updating:</strong> Every day, as new closing prices arrive, the filter executes a
-            prediction-correction cycle. It calculates the prediction error (the <em>innovation</em>), scales it by the
-            <strong>Kalman Gain</strong>, and updates the posterior estimate of the hedge ratio without
-            <strong>lookahead bias</strong>.
+            <strong>Predict-and-Correct Loop:</strong> Every day after the close, the filter predicts HSBC's price,
+            measures the surprise gap (the <em>innovation</em>), and scales it using the <strong>Kalman Gain</strong>
+            to update &beta;—using strictly past data with zero <strong>lookahead bias</strong>.
         </li>
     </ul>
     <p>
-        Over the 2021–2026 backtest period, the dynamic hedge elasticity (β) drifted smoothly between
-        <strong>0.68 and 0.94</strong>, adjusting to changing market conditions while filtering out transient noise.
+        Across the 2021–2026 backtest, the dynamic hedge elasticity (&beta;) moved smoothly between
+        <strong>0.68 and 0.94</strong>, adjusting to changing market regimes without overreacting to daily noise.
     </p>
 </div>
 """,
@@ -715,7 +732,7 @@ with st.container(border=True):
     st.markdown(
         """
         <div class="glass-panel-title">Dynamic Kalman Filter Hedge Ratio vs. Static OLS (2021–2026)</div>
-        <div class="glass-panel-subtitle">Recursive state-vector tracking (0.68 to 0.94) compared against the static 0.812 baseline.</div>
+        <div class="glass-panel-subtitle">Adaptive hedge elasticity (0.68 to 0.94) compared against the rigid 0.812 baseline.</div>
         """,
         unsafe_allow_html=True,
     )
@@ -758,30 +775,29 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">04 • SPREAD DYNAMICS</div>
-    <h2 class="section-heading">Ornstein-Uhlenbeck Calibration &amp; First Hitting Time</h2>
+    <h2 class="section-heading">How Fast Does the Price Gap Snap Back?</h2>
     <p>
-        Once the dynamic hedge ratio is extracted, the residual spread must be evaluated for its mean-reverting speed.
-        We model the spread as a continuous-time <strong>Ornstein-Uhlenbeck (OU) process</strong>:
+        Once we isolate the daily price gap (the spread), we need to measure how quickly it snaps back to normal. We
+        model this rubber-band behavior using an <strong>Ornstein-Uhlenbeck (OU) mean-reverting process</strong>:
     </p>
     <ul>
         <li>
-            <strong>Spread Half-Life:</strong> Discretizing the process yields an empirical half-life of
-            <strong>1.30 trading days</strong> (mean-reversion speed = 0.5332). This means a deviation decays by 50% in
-            roughly 1.3 days.
+            <strong>Spread Half-Life (1.30 Days):</strong> At an empirical reversion speed of &theta;<sub>OU</sub> =
+            0.5332, any unusual gap between the two stocks shrinks by 50% in roughly <strong>1.30 trading days</strong>.
         </li>
         <li>
-            <strong>First Hitting Time (FHT):</strong> Half-life is often mistaken for expected trade duration. When a trade
-            is entered at an extreme threshold (2.0σ) and held until it reverts fully to zero (0.0σ), the expected holding
-            period is governed by <strong>First Hitting Time</strong> dynamics.
+            <strong>Why Half-Life Isn't Holding Time:</strong> Traders often mistake a 1.30-day half-life for the
+            expected length of a trade. However, we enter a trade when the gap is wide (2.0&sigma;) and hold until it
+            closes all the way back to zero (0.0&sigma;).
         </li>
         <li>
-            <strong>Analytical Solution:</strong> Evaluating the <strong>Dynkin boundary problem</strong> analytically using
-            the <strong>complementary error function (erfc)</strong> yields an expected hitting time of 2.03 times the
-            half-life, or <strong>2.64 trading days</strong>.
+            <strong>First Hitting Time (2.64 Days):</strong> Solving the exact boundary-crossing equation (via the
+            complementary error function, <code>erfc</code>) shows that reaching 0.0&sigma; from 2.0&sigma; takes
+            roughly twice the half-life: <strong>2.64 trading days</strong>.
         </li>
         <li>
-            <strong>Realized Duration:</strong> Accounting for market-close execution latency and discrete exit boundaries,
-            the realized average trade duration expands to <strong>3.42 trading days</strong>.
+            <strong>Actual Trade Duration (3.42 Days):</strong> Because trades execute at the next market close rather
+            than instantaneously, the realized average holding period expands to <strong>3.42 trading days</strong>.
         </li>
     </ul>
 </div>
@@ -794,7 +810,7 @@ with st.container(border=True):
     st.markdown(
         """
         <div class="glass-panel-title">Ornstein-Uhlenbeck Process &amp; First Hitting Time Equations</div>
-        <div class="glass-panel-subtitle">Continuous-time mean reversion and the analytical Dynkin boundary integral.</div>
+        <div class="glass-panel-subtitle">Continuous-time mean reversion and the analytical boundary-crossing integral.</div>
         """,
         unsafe_allow_html=True,
     )
@@ -808,7 +824,7 @@ with st.container(border=True):
     with ou_c2:
         st.latex(r"\tau_{1/2} = \frac{\ln(2)}{\theta_{OU}} = 1.30 \text{ trading days}")
         st.markdown(
-            '<div class="formula-caption">Empirical Spread Half-Life (θ_OU = 0.5332)</div>',
+            '<div class="formula-caption">Empirical Spread Half-Life (&theta;_OU = 0.5332)</div>',
             unsafe_allow_html=True,
         )
 
@@ -827,9 +843,11 @@ with dur1:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Spread Half-Life (τ₁/₂)</div>
-        <div class="stat-value">1.30 Days</div>
-        <div class="stat-sub">50% decay velocity (θ_OU = 0.5332)</div>
+        <div>
+            <div class="stat-label">Spread Half-Life (&tau;&#8321;/&#8322;)</div>
+            <div class="stat-value">1.30 Days</div>
+        </div>
+        <div class="stat-sub">Time for gap to shrink by 50% (&theta;_OU = 0.5332)</div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -838,9 +856,11 @@ with dur2:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Analytical First Hitting Time</div>
-        <div class="stat-value">2.64 Days</div>
-        <div class="stat-sub">2.03 × τ₁/₂ (|Z| = 2.0σ → 0.0σ)</div>
+        <div>
+            <div class="stat-label">Analytical First Hitting Time</div>
+            <div class="stat-value">2.64 Days</div>
+        </div>
+        <div class="stat-sub">2.03 &times; &tau;&#8321;/&#8322; (full reversion 2.0&sigma; &rarr; 0.0&sigma;)</div>
     </div>
     """,
         unsafe_allow_html=True,
@@ -849,8 +869,10 @@ with dur3:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">Realized Trade Duration</div>
-        <div class="stat-value">3.42 Days</div>
+        <div>
+            <div class="stat-label">Realized Trade Duration</div>
+            <div class="stat-value">3.42 Days</div>
+        </div>
         <div class="stat-sub">Includes close-to-close execution lag</div>
     </div>
     """,
@@ -867,33 +889,33 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">05 • SIGNAL GENERATION &amp; RISK CONTROLS</div>
-    <h2 class="section-heading">Systematic Execution Rules &amp; Hysteresis Latch</h2>
+    <h2 class="section-heading">Trading Rules &amp; Circuit-Breaker Protection</h2>
     <p>
-        To turn the spread into systematic execution rules, the system normalizes the spread into a dimensionless rolling
-        30-day <strong>Z-Score</strong>. Rolling metrics are computed strictly over historical windows to prevent
-        <strong>lookahead bias</strong>:
+        To turn daily price gaps into clear buy and sell decisions without peeking at future data
+        (<strong>lookahead bias</strong>), we measure how unusual today's spread is relative to the prior 30 trading
+        days using a rolling <strong>Z-Score</strong> (standard deviations away from the 30-day average):
     </p>
     <ul>
         <li>
-            <strong>Long Spread Entry (Z ≤ −2.0σ):</strong> HSBC is statistically undervalued relative to Standard Chartered.
-            Long HSBC, short Standard Chartered.
+            <strong>Buy the Spread (Z &le; &minus;2.0&sigma;):</strong> HSBC is unusually cheap relative to Standard
+            Chartered. Buy HSBC and short Standard Chartered.
         </li>
         <li>
-            <strong>Short Spread Entry (Z ≥ +2.0σ):</strong> HSBC is statistically overvalued relative to Standard Chartered.
-            Short HSBC, long Standard Chartered.
+            <strong>Sell the Spread (Z &ge; +2.0&sigma;):</strong> HSBC is unusually expensive relative to Standard
+            Chartered. Short HSBC and buy Standard Chartered.
         </li>
         <li>
-            <strong>Equilibrium Exit (Z = 0.0σ):</strong> The spread has returned to its mean. Close out positions and return
-            to cash.
+            <strong>Take Profit (Z = 0.0&sigma;):</strong> The gap has snapped back to its average. Close both
+            positions and return to cash.
         </li>
         <li>
-            <strong>Emergency Stop-Loss &amp; Hysteresis Latch (|Z| ≥ 3.5σ):</strong> If the spread blows out beyond 3.5
-            standard deviations, the model liquidates all positions to cash. To prevent re-entering a structurally broken
-            trade, a <strong>hysteresis latch</strong> stays active until the spread normalizes inside ±1.0σ.
+            <strong>Emergency Stop-Loss &amp; Cooldown Latch (|Z| &ge; 3.5&sigma;):</strong> If the gap blows past 3.5
+            standard deviations, the relationship may be temporarily broken. The system exits immediately to cap losses
+            and locks out new trades (a <em>hysteresis latch</em>) until the spread calms back down inside &plusmn;1.0&sigma;.
         </li>
         <li>
-            <strong>Execution Latency:</strong> Signals generated at the close of day <em>t</em> execute at the close of day
-            <em>t + 1</em>, accounting for real-world order execution delay.
+            <strong>1-Day Execution Delay:</strong> Signals triggered at the close of day <em>t</em> execute at the
+            close of day <em>t + 1</em>, reflecting realistic order turnaround.
         </li>
     </ul>
 </div>
@@ -906,7 +928,7 @@ with st.container(border=True):
     st.markdown(
         """
         <div class="glass-panel-title">Rolling 30-Day Z-Score &amp; Execution State Machine (2021–2026)</div>
-        <div class="glass-panel-subtitle">Normalized spread signals with ±2.0σ entry bands and ±3.5σ hysteresis stop-loss thresholds.</div>
+        <div class="glass-panel-subtitle">Normalized spread signals with &plusmn;2.0&sigma; entry bands and &plusmn;3.5&sigma; stop-loss thresholds.</div>
         """,
         unsafe_allow_html=True,
     )
@@ -947,6 +969,8 @@ with st.container(border=True):
             line_width=1.3,
             annotation_text=label,
             annotation_position="right",
+            annotation_bgcolor="rgba(4, 8, 15, 0.72)",
+            annotation_borderpad=3,
             annotation_font=dict(size=10, color="#E0E9F6"),
         )
     fig_z.update_yaxes(range=[-4.2, 4.2], title_text="Z-Score (σ)")
@@ -963,36 +987,35 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">06 • EMPIRICAL RESULTS</div>
-    <h2 class="section-heading">Theoretical Alpha vs. Friction Drag</h2>
+    <h2 class="section-heading">Paper Profits vs. Hong Kong Trading Costs</h2>
     <p>
-        The strategy was evaluated over a five-year backtest spanning <strong>January 2021 to January 2026</strong>
-        (1,230 trading days). During this period, the model completed <strong>85 trade cycles</strong>, remaining in the
-        market <strong>23.6%</strong> of the time.
+        We tested the strategy across five years from <strong>January 2021 to January 2026</strong> (1,230 trading days).
+        Over that span, the model completed <strong>85 round-trip trades</strong> and held active positions
+        <strong>23.6%</strong> of the time.
     </p>
     <p>
-        <strong>Gross Strategy Performance (Before Fees):</strong> Before transaction costs, the dynamic Kalman strategy
-        generated a <strong>+21.06%</strong> cumulative return (CAGR: 3.90%), with <strong>7.61%</strong> annualized
-        volatility, a <strong>+0.12</strong> annualized Sharpe ratio (at a 3.0% risk-free rate), and a
-        <strong>−11.29%</strong> maximum drawdown. Gross Kalman performance outperformed the static OLS benchmark
-        (<strong>+8.92%</strong>) by over 12 percentage points.
+        <strong>Before Fees (Gross Performance):</strong> Without transaction costs, the dynamic Kalman model earned a
+        <strong>+21.06%</strong> cumulative return (3.90% annualized), with <strong>7.61%</strong> annualized volatility,
+        a <strong>+0.12</strong> Sharpe ratio (against a 3.0% risk-free rate), and a <strong>&minus;11.29%</strong>
+        maximum drawdown—beating the static OLS benchmark (<strong>+8.92%</strong>) by over 12 percentage points.
     </p>
     <p>
-        <strong>The Institutional Friction Structure:</strong> Executing on HKEX requires accounting for the full fee
-        schedule enforced by regulators and clearinghouses:
+        <strong>The Real HKEX Fee Bill:</strong> Trading cash stocks in Hong Kong comes with steep mandatory charges on
+        every buy and sell order:
     </p>
     <ul>
-        <li><strong>Hong Kong Stamp Duty (Cap. 117):</strong> <strong>10.00 bps</strong> (0.1000%) ad valorem tax on each leg.</li>
-        <li><strong>Regulatory &amp; Clearing Fees:</strong> SFC transaction levy (0.27 bps), AFRC levy (0.015 bps), HKEX trading fee (0.565 bps), and HKSCC clearing fee (0.20 bps).</li>
-        <li><strong>Execution Costs:</strong> Prime brokerage commissions (2.00 bps) and bid-ask slippage (2.00 bps).</li>
-        <li><strong>Total Single-Leg Friction:</strong> <strong>15.05 bps</strong> (or <strong>30.10 bps</strong> across both legs of a pair trade).</li>
-        <li><strong>Short-Borrow Financing:</strong> <strong>2.00%</strong> annualized financing charge under SFC covered short-selling requirements.</li>
+        <li><strong>Hong Kong Stamp Duty (Cap. 117):</strong> <strong>10.00 bps</strong> (0.10%) government tax on every stock trade.</li>
+        <li><strong>Exchange &amp; Regulatory Levies:</strong> <strong>1.05 bps</strong> combined across SFC (0.27 bps), AFRC (0.015 bps), HKEX trading (0.565 bps), and HKSCC clearing (0.20 bps).</li>
+        <li><strong>Brokerage &amp; Slippage:</strong> <strong>4.00 bps</strong> total (2.00 bps prime broker commission + 2.00 bps bid-ask spread slippage).</li>
+        <li><strong>Total Cost per Leg:</strong> <strong>15.05 bps</strong> per stock—or <strong>30.10 bps</strong> across both stocks in a pair trade.</li>
+        <li><strong>Short-Borrow Fee:</strong> <strong>2.00%</strong> annualized interest paid to borrow shares when short-selling.</li>
     </ul>
     <p>
-        <strong>Net Strategy Performance (After Fees):</strong> Because an active trade requires both an entry and an exit,
-        the 85 trade cycles generated <strong>170 portfolio rebalancing events</strong>. Transaction costs consumed
-        <strong>−51.17%</strong> of portfolio capital and short-borrow financing consumed <strong>−1.06%</strong>, creating a
-        total friction drag of <strong>−52.23%</strong>. This drives the net cumulative return down to
-        <strong>−31.17%</strong> (CAGR: −7.19%, Sharpe: −1.34, Max Drawdown: −33.45%).
+        <strong>After Fees (Net Reality):</strong> Every round-trip trade requires both opening and closing positions,
+        turning 85 trades into <strong>170 portfolio rebalances</strong> (340 individual stock legs). Transaction fees
+        consumed <strong>&minus;51.17%</strong> of portfolio capital and short-borrowing cost <strong>&minus;1.06%</strong>,
+        creating a total drag of <strong>&minus;52.23%</strong>. That turns a +21.06% paper gain into a
+        <strong>&minus;31.17%</strong> net loss (CAGR: &minus;7.19%, Sharpe: &minus;1.34, Max Drawdown: &minus;33.45%).
     </p>
 </div>
 """,
@@ -1004,19 +1027,11 @@ with st.container(border=True):
     st.markdown(
         """
         <div class="glass-panel-title">5-Year Cumulative Equity Curve: Gross Alpha vs. Net HKEX Reality (2021–2026)</div>
-        <div class="glass-panel-subtitle">Comparing Gross Kalman (+21.06%), Gross Static OLS (+8.92%), and Net Cash Kalman after HKEX fees (−31.17%).</div>
+        <div class="glass-panel-subtitle">Shaded region highlights the &minus;52.23% friction drag separating Gross Kalman (+21.06%) from Net Cash (&minus;31.17%).</div>
         """,
         unsafe_allow_html=True,
     )
     fig_eq = go.Figure()
-    fig_eq.add_trace(
-        go.Scatter(
-            x=df_data["Date"],
-            y=df_data["Kalman_Gross"],
-            name="Kalman Filter (Gross: +21.06%)",
-            line=dict(color=PALETTE["white"], width=2.8),
-        )
-    )
     fig_eq.add_trace(
         go.Scatter(
             x=df_data["Date"],
@@ -1028,11 +1043,19 @@ with st.container(border=True):
     fig_eq.add_trace(
         go.Scatter(
             x=df_data["Date"],
+            y=df_data["Kalman_Gross"],
+            name="Kalman Filter (Gross: +21.06%)",
+            line=dict(color=PALETTE["white"], width=2.8),
+        )
+    )
+    fig_eq.add_trace(
+        go.Scatter(
+            x=df_data["Date"],
             y=df_data["Kalman_Net"],
             name="Kalman Filter (Net Cash: -31.17%)",
             line=dict(color=PALETTE["steel"], width=2.6),
             fill="tonexty",
-            fillcolor="rgba(62, 104, 163, 0.14)",
+            fillcolor="rgba(62, 104, 163, 0.16)",
         )
     )
     fig_eq.add_hline(y=100, line_dash="dot", line_color="rgba(161, 198, 234, 0.3)")
@@ -1044,7 +1067,7 @@ with st.container(border=True):
 with st.container(border=True):
     st.markdown(
         """
-        <div class="glass-panel-title">Table 1: Institutional Quantitative Performance Tearsheet (2021–2026 Backtest)</div>
+        <div class="glass-panel-title">Table 1: Quantitative Performance Tearsheet (2021–2026 Backtest)</div>
         <div class="glass-panel-subtitle">Side-by-side comparison across Kalman (Gross), Kalman (Net Cash), and Static OLS (Gross).</div>
         <table class="glass-table">
             <thead>
@@ -1132,19 +1155,21 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">07 • THE BREAK-EVEN FRICTION FRONTIER</div>
-    <h2 class="section-heading">Where Theoretical Alpha Breaks Down</h2>
+    <h2 class="section-heading">How Low Must Fees Be to Make a Profit?</h2>
     <p>
-        To understand where theoretical alpha breaks down, we calculate the <strong>Break-Even Friction Frontier</strong>—the
-        maximum single-leg transaction cost (<strong>c*</strong>) the strategy can bear while matching a 3.0% HKD cash hurdle:
+        To pinpoint exactly where the math breaks down, we solve for the <strong>Break-Even Cost Threshold</strong>
+        (<strong>c*</strong>)—the maximum fee per trade leg the strategy can pay and still beat a risk-free 3.0% HKD
+        cash return:
     </p>
     <ul>
-        <li><strong>Maximum allowable cumulative transaction friction:</strong> <strong>4.07%</strong> (407 bps)</li>
-        <li><strong>Total single-leg executions across 170 adjustments:</strong> <strong>340 legs</strong></li>
+        <li><strong>Total Fee Budget Above Cash Hurdle:</strong> <strong>4.07%</strong> (407 bps) across 5 years</li>
+        <li><strong>Total Single-Stock Executions (170 Rebalances &times; 2 Legs):</strong> <strong>340 legs</strong></li>
         <li><strong>Break-Even Cost Threshold (c*):</strong> <strong>1.20 basis points per leg</strong></li>
     </ul>
     <p>
-        Because actual HKEX cash equity friction is <strong>15.05 bps per leg</strong>, the strategy faces a
-        <strong>−13.85 bps net friction deficit</strong>. Cash equity statistical arbitrage on HKEX is economically unviable.
+        Because trading cash stocks on HKEX actually costs <strong>15.05 bps per leg</strong>, the strategy faces a
+        <strong>&minus;13.85 bps cost deficit</strong> on every single leg. Trading cash equities in Hong Kong at this
+        frequency is mathematically unviable.
     </p>
 </div>
 """,
@@ -1187,13 +1212,23 @@ with st.container(border=True):
         sim_cagr = ((1 + sim_net_return / 100.0) ** (1 / 5) - 1) * 100.0
         sim_sharpe = (sim_cagr - 3.0) / 7.62
 
+        if sim_sharpe >= 0.0:
+            regime_note = "Viable (Beats 3.0% Cash Hurdle)"
+        elif sim_net_return > 0.0:
+            regime_note = "Positive Return (Trails 3.0% Cash)"
+        else:
+            regime_note = "Unviable (Net Capital Loss)"
+
         st.markdown(
             f"""
             <div class="glass-stat-card" style="margin-top: 0.75rem;">
-                <div class="stat-label">Simulated 5Y Net Return (@ {user_bps:.2f} bps)</div>
-                <div class="stat-value">{sim_net_return:+.2f}%</div>
+                <div>
+                    <div class="stat-label">Simulated 5Y Net Return (@ {user_bps:.2f} bps)</div>
+                    <div class="stat-value">{sim_net_return:+.2f}%</div>
+                </div>
                 <div class="stat-sub">
-                    Total Drag: -{sim_total_drag:.2f}% • Net Sharpe: {sim_sharpe:+.2f}
+                    Total Drag: -{sim_total_drag:.2f}% • Net Sharpe: {sim_sharpe:+.2f}<br>
+                    <strong>Status:</strong> {regime_note}
                 </div>
             </div>
             """,
@@ -1273,43 +1308,42 @@ st.markdown(
     """
 <div class="prose-text">
     <div class="section-kicker">08 • INSTITUTIONAL EXECUTION</div>
-    <h2 class="section-heading">Single-Stock Futures and Market Realities</h2>
+    <h2 class="section-heading">How Trading Desks Bypass Stamp Duty—and the New Trade-Offs</h2>
     <p>
-        The failure of the cash strategy is an instrument implementation issue rather than an econometric failure.
-        Institutional desks address this by trading derivatives.
+        The failure of the cash strategy is an execution problem, not a flaw in the math. Professional trading desks in
+        Hong Kong bypass stamp duty by switching from cash shares to derivatives.
     </p>
     <p>
-        <strong>1. Statutory Stamp Duty Exemption:</strong> Under <strong>Schedule 1 of the Hong Kong Stamp Duty Ordinance
-        (Cap. 117)</strong>, exchange-traded futures are exempt from the 0.10% stamp duty. Trading
-        <strong>HKEX Single-Stock Futures (SSFs)</strong> reduces aggregate single-leg costs to approximately
-        <strong>2.30 to 2.50 bps</strong> and eliminates short-borrow financing fees.
+        <strong>1. Statutory Stamp Duty Exemption:</strong> Under <strong>Schedule 1 of the Hong Kong Stamp Duty
+        Ordinance (Cap. 117)</strong>, exchange-traded futures are exempt from the 0.10% stamp duty. Trading
+        <strong>HKEX Single-Stock Futures (SSFs)</strong> cuts total single-leg fees to roughly
+        <strong>2.30–2.50 bps</strong> and removes short-borrow interest charges.
     </p>
     <p>
-        <strong>2. Derivative Implementation Trade-Offs:</strong> While SSFs resolve stamp duty, they introduce practical
-        operational hurdles:
+        <strong>2. Practical Hurdles with Futures:</strong> While Single-Stock Futures eliminate the tax drag, they
+        introduce four new operational challenges:
     </p>
     <ul>
         <li>
-            <strong>Order Book Illiquidity:</strong> HSBC futures maintain tight spreads and deep order books, but
-            Standard Chartered (2888.HK) futures suffer from low liquidity, with open interest frequently below
-            <strong>50 contracts</strong> and bid-ask spreads widening beyond <strong>15–30 bps</strong>. This illiquidity
-            can quickly negate stamp duty savings. Desks often route the Standard Chartered leg via London Stock Exchange
-            shares (<strong>STAN.L</strong>) or bilateral <strong>Total Return Swaps (TRSs)</strong>, introducing foreign
-            exchange risk.
+            <strong>Thin Liquidity on Standard Chartered:</strong> HSBC futures trade actively with tight spreads, but
+            Standard Chartered (2888.HK) futures often have fewer than <strong>50 open contracts</strong> and wide
+            bid-ask spreads of <strong>15–30 bps</strong>—erasing the stamp duty savings. To work around this, desks
+            often trade Standard Chartered via London shares (<strong>STAN.L</strong>) or bank swap agreements
+            (<strong>TRSs</strong>), which introduces GBP/HKD currency exposure.
         </li>
         <li>
-            <strong>Calendar Roll Drag:</strong> Maintaining positions across monthly futures contract expiries introduces
-            roll spread costs of <strong>1.5–2.5 bps</strong> per event.
+            <strong>Monthly Contract Roll Costs:</strong> Because futures expire every month, carrying positions across
+            contract expiries adds <strong>1.5–2.5 bps</strong> in roll spread costs.
         </li>
         <li>
-            <strong>Basis Risk:</strong> Futures trade at a premium or discount to spot prices based on carrying costs and
-            expected dividends. Irregular dividend announcements from either bank create basis fluctuations that decouple
-            from the underlying log-price spread.
+            <strong>Dividend &amp; Basis Risk:</strong> Futures prices reflect interest rates and expected dividends.
+            Unexpected dividend announcements from either bank can cause futures prices to temporarily diverge from
+            underlying stock prices.
         </li>
         <li>
-            <strong>Discrete Board Lots:</strong> HKEX cash equities trade in fixed lot sizes (<strong>400 shares</strong>
-            for HSBC; <strong>500 shares</strong> for StanChart). Achieving continuous elasticity-weighted balance requires
-            integer rounding, which leaves small residual beta exposures on sub-HK$5M portfolios.
+            <strong>Fixed Board-Lot Sizes:</strong> HKEX stocks trade in fixed bundles (<strong>400 shares</strong>
+            per lot for HSBC; <strong>500 shares</strong> per lot for Standard Chartered). Rounding to whole lots
+            leaves small hedging mismatches on portfolios under HK$5 million.
         </li>
     </ul>
 </div>
@@ -1362,11 +1396,11 @@ with tk1:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">01 • Sound Econometrics</div>
+        <div class="stat-label">01 • Adaptive Modeling</div>
         <div class="stat-value" style="font-size: 1.32rem; margin-bottom: 0.35rem;">Log Prices &amp; Kalman Filter</div>
         <div class="stat-sub" style="font-size: 0.94rem;">
-            Formulating the model using <strong>log prices</strong> avoids scale bias, while the recursive
-            <strong>Kalman filter</strong> dynamically tracks changing bank fundamentals without lag.
+            Using <strong>log prices</strong> keeps the hedge ratio scale-invariant, while the
+            <strong>Kalman filter</strong> adapts smoothly as bank fundamentals shift over time.
         </div>
     </div>
     """,
@@ -1376,11 +1410,11 @@ with tk2:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">02 • Analytical Precision</div>
+        <div class="stat-label">02 • Realistic Holding Times</div>
         <div class="stat-value" style="font-size: 1.32rem; margin-bottom: 0.35rem;">Half-Life vs. First Hitting Time</div>
         <div class="stat-sub" style="font-size: 0.94rem;">
-            Distinguishing between <strong>half-life (1.30 days)</strong> and <strong>First Hitting Time (2.64 days)</strong>
-            accurately frames expected trade durations (<strong>3.42 days</strong> realized).
+            Separating <strong>half-life (1.30 days)</strong> from <strong>First Hitting Time (2.64 days)</strong>
+            accurately predicts actual trade holding periods (<strong>3.42 days</strong> realized).
         </div>
     </div>
     """,
@@ -1394,11 +1428,11 @@ with tk3:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">03 • Institutional Realism</div>
-        <div class="stat-value" style="font-size: 1.32rem; margin-bottom: 0.35rem;">The -52.23% Stamp Duty Drag</div>
+        <div class="stat-label">03 • Market Microstructure</div>
+        <div class="stat-value" style="font-size: 1.32rem; margin-bottom: 0.35rem;">The &minus;52.23% Stamp Duty Drag</div>
         <div class="stat-sub" style="font-size: 0.94rem;">
-            The <strong>0.10% HKEX stamp duty</strong> creates a <strong>-52.23% drag</strong> across 170 rebalancing events
-            that wipes out cash equity statistical arbitrage (<strong>-31.17%</strong> net return).
+            Hong Kong's <strong>0.10% stamp duty</strong> creates a <strong>&minus;52.23% drag</strong> across 170
+            rebalances, turning a +21.06% gross gain into a <strong>&minus;31.17%</strong> net loss.
         </div>
     </div>
     """,
@@ -1408,11 +1442,11 @@ with tk4:
     st.markdown(
         """
     <div class="glass-stat-card">
-        <div class="stat-label">04 • Derivative Solutions</div>
+        <div class="stat-label">04 • Derivative Execution</div>
         <div class="stat-value" style="font-size: 1.32rem; margin-bottom: 0.35rem;">Single-Stock Futures</div>
         <div class="stat-sub" style="font-size: 0.94rem;">
-            Moving execution to <strong>Single-Stock Futures (SSFs)</strong> solves the tax drag, but requires active
-            management of <strong>order-book illiquidity</strong>, <strong>roll costs</strong>, and <strong>basis risk</strong>.
+            Switching to <strong>Single-Stock Futures</strong> eliminates stamp duty, but requires managing
+            <strong>thin order books</strong>, <strong>monthly roll costs</strong>, and <strong>dividend basis risk</strong>.
         </div>
     </div>
     """,
