@@ -102,27 +102,9 @@ HKEX-Statistical-Arbitrage/
 
 ---
 
-## Local Setup & Execution
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/sanaprabhakar/HKEX-Statistical-Arbitrage.git](https://github.com/sanaprabhakar/HKEX-Statistical-Arbitrage.git)
-   cd HKEX-Statistical-Arbitrage
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the interactive Streamlit dashboard:**
-   ```bash
-   streamlit run app.py
-   ```
-
----
 
 ## Author
 
 **Prabhakar Sana**  
-*Quantitative Finance & Econometrics Portfolio Project*
+*Quantitative Finance & Econometrics Project*
