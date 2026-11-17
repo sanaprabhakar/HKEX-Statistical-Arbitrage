@@ -53,7 +53,7 @@ $$s_t = y_t - (\hat{\alpha}_t + \hat{\beta}_t x_t)$$
 * Over the 5-year sample, the dynamic hedge elasticity $\hat{\beta}_t$ adapts smoothly between **0.68 and 0.94** around the static `0.812` baseline.
 
 ### 3. Ornstein-Uhlenbeck Calibration & First Hitting Time
-Modeling the filtered residual spread as a continuous-time Ornstein-Uhlenbeck process, $ds_t = \theta_{OU}(\mu_{OU} - s_t)\,dt + \sigma_{OU}\,dW_t$, yields a mean-reversion speed of $\theta_{OU} = 0.5332$ and an empirical **half-life of $\tau_{1/2} = 1.30$ trading days**.
+Modeling the filtered residual spread as a continuous-time Ornstein-Uhlenbeck process, $ds_t = \theta_{OU}(\mu_{OU} - s_t) dt + \sigma_{OU} dW_t$, yields a mean-reversion speed of $\theta_{OU} = 0.5332$ and an empirical **half-life of $\tau_{1/2} = 1.30$ trading days**.
 
 Because trades enter at $\vert{}Z\vert{} = 2.0\sigma$ and exit at full reversion ($0.0\sigma$), expected duration is governed by the analytical First Hitting Time (Dynkin boundary problem) rather than half-life alone:
 
@@ -76,9 +76,9 @@ Every round-trip pair trade incurs institutional costs across **340 single-leg e
 * **Prime Brokerage & Slippage:** `4.00 bps` (`2.00 bps` commission + `2.00 bps` bid-ask slippage)
 * **Total Single-Leg Cost:** **`15.05 bps` per leg** (`30.10 bps` per pair rebalance), plus `2.00%` annualized short-borrow financing (`−1.06%` cumulative drag)
 
-Solving for the maximum single-leg fee $c^*$ that matches a `3.0%` HKD cash hurdle:
+Solving for the maximum single-leg fee $c^*$ that matches a `3.0%` HKD cash hurdle ($R_f = 0.03$):
 
-$$c^* = \sup \left\{ c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 3.0\%) \ge 0.0 \right\} = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}$$
+$$c^* = \sup \lbrace c \in \mathbb{R}^+ : \text{Sharpe}_{\text{net}}(c; R_f = 0.03) \ge 0.0 \rbrace = \frac{407 \text{ bps}}{340 \text{ legs}} = 1.20 \text{ bps per leg}$$
 
 Actual HKEX cash equity friction (`15.05 bps`) exceeds this threshold by **13.85 bps per leg**, rendering cash equity statistical arbitrage economically unviable.
 
